@@ -1,7 +1,7 @@
 import fs from 'mz/fs'
 import path from 'path'
 import flatten from 'lodash/flatten'
-import last from 'lodash/last'
+import nth from 'lodash/nth'
 import frontMatter from 'yaml-front-matter'
 
 // Temporary while rapidly testing
@@ -13,13 +13,13 @@ const hasAllowedExtension = (filename) => {
 }
 
 
-const formatPostObject = (name, fullPath = '') => {
+const formatPostObject = (postPath) => {
 	// Naievely assumes posts/drafts are only ever one level deep
-	const type = last(fullPath.split(path.sep)).slice(1, -1)
+	const type = nth(postPath.split(path.sep), -2).slice(1, -1)
 	return {
-		path: path.join(fullPath, name),
+		path: postPath,
+		filename: path.parse(postPath).base,
 		type,
-		name,
 	}
 }
 
@@ -41,7 +41,7 @@ const getPosts = () => {
 
 		return fs.readdir(fullPath)
 				.then(files => files.filter(hasAllowedExtension))
-				.then(files => files.map(name => formatPostObject(name, fullPath)))
+				.then(files => files.map(name => formatPostObject(path.join(fullPath, name))))
 				.catch(console.log)
 	})
 
