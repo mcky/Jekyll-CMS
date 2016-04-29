@@ -1,0 +1,17 @@
+import {getConfig} from '../../jekyll-adapters/config'
+import db from '../db'
+
+const controller = {
+
+	get: (req, res, next) => {
+		// @TODO: Serialize this into database instead of fetching from fs
+		getConfig()
+			.then(config => {
+				res.locals.data = config
+				next()
+			})
+	},
+
+}
+
+export default controller
