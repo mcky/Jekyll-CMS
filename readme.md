@@ -2,9 +2,9 @@
 
 This project is a very early stage experiment with creating a UI for jekyll, using the existing filesystem as a database.
 
-Other flat-file CMSs exist - however some require a build server to compile, a server running node/php or complete control over your content. By adding a UI layer on top of Jekyll we can harness the existing ecosystem (in particular Github pages hosting).
-
 The overall aim is to make static sites more approachable for less technically minded people, without losing any of the power. Ideally you should be able to hook this up to any Jekyll project and be able to dive in right away, and conversely remove it without fear of lock-in.
+
+Other flat-file CMSs exist - however some require a build server to compile, a server running node/php or complete control over your content. By adding a UI layer on top of Jekyll we can harness the existing ecosystem (in particular Github pages hosting).
 
 
 Various forms this could take that I'm exploring:  
