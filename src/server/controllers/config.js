@@ -5,11 +5,10 @@ const controller = {
 
 	get: (req, res, next) => {
 		// @TODO: Serialize this into database instead of fetching from fs
-		getConfig()
-			.then(config => {
-				res.locals.data = config
-				next()
-			})
+		db.config.find({}, function (err, config) {
+			res.locals.data = config
+			next()
+		})
 	},
 
 }
