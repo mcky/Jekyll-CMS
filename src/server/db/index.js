@@ -1,5 +1,6 @@
 import Datastore from 'nedb'
 import {getPosts, getExpandedPosts} from '../../jekyll-adapters/posts'
+import './watchers'
 
 // Different datastores for posts, pages, config etc?
 // eg db.posts, db.settings
