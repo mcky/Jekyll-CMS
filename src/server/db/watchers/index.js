@@ -13,7 +13,7 @@ chokidar.watch(`${dir}/{_drafts,_posts}/*`)
 
 		getPostByFilename(path)
 			.then(fileObj => {
-				db.update({'info.permalink': fileObj.info.permalink}, fileObj)
+				db.posts.update({'info.permalink': fileObj.info.permalink}, fileObj)
 			})
 			.catch(console.log)
 	})
