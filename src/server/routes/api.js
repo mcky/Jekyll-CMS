@@ -4,7 +4,10 @@ import {postController, configController} from '../controllers'
 const router = Router()
 
 router.get('/posts', postController.index)
-router.get('/posts/:permalink', postController.get)
+
+router.route('/posts/:permalink')
+	.get(postController.get)
+	.put(postController.get, postController.put)
 
 router.get('/settings', configController.get)
 
