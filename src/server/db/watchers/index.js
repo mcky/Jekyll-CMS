@@ -7,7 +7,6 @@ import {getPostByFilename, formatPostObject} from '../../../jekyll-adapters/post
 const dir = process.env.JEKYLL_DIR
 
 // @TOOD: Again, allowed filenames only
-// @TODO: Handle file deletes, renames, moves
 const watchPosts = () => new Promise((resolve, reject) => {
 
 	chokidar.watch(`${dir}/{_drafts,_posts}/*`)
@@ -22,6 +21,9 @@ const watchPosts = () => new Promise((resolve, reject) => {
 			getPostByFilename(path)
 				.then(fileObj => db.posts.insert(fileObj))
 				.catch(console.log)
+		})
+		.on('unlink', path => {
+			db.posts.remove({path})
 		})
 		.on('ready', resolve)
 })
