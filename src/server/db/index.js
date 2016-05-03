@@ -1,7 +1,8 @@
 import Datastore from 'nedb'
 import {getPosts, getExpandedPosts} from '../../jekyll-adapters/posts'
 import {getConfig} from '../../jekyll-adapters/config'
-import './watchers'
+
+import {watchAll} from './watchers'
 
 const db = {}
 db.posts = new Datastore()
@@ -22,14 +23,9 @@ const bootstrapModel = (db, dataPromise) => new Promise((resolve, reject) => {
 })
 
 const bootstrap = () => new Promise((resolve, reject) => {
-	Promise.all([
-		bootstrapModel(db.posts, getExpandedPosts),
-		bootstrapModel(db.config, getConfig),
-	])
-	.then(([posts, config]) => {
-		resolve(db)
-	})
-	.catch(reject)
+	watchAll()
+		.then(resolve)
+		.catch(reject)
 })
 
 

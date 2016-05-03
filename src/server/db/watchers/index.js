@@ -8,14 +8,31 @@ const dir = process.env.JEKYLL_DIR
 
 // @TOOD: Again, allowed filenames only
 // @TODO: Handle file deletes, renames, moves
-chokidar.watch(`${dir}/{_drafts,_posts}/*`)
-	.on('change', path => {
+const watchPosts = () => new Promise((resolve, reject) => {
 
-		getPostByFilename(path)
-			.then(fileObj => {
-				db.posts.update({'info.permalink': fileObj.info.permalink}, fileObj)
-			})
-			.catch(console.log)
-	})
+	chokidar.watch(`${dir}/{_drafts,_posts}/*`)
+		.on('change', path => {
+			getPostByFilename(path)
+				.then(fileObj => {
+					db.posts.update({'path': fileObj.path}, fileObj)
+				})
+				.catch(console.log)
+		})
+		.on('add', path => {
+			getPostByFilename(path)
+				.then(fileObj => db.posts.insert(fileObj))
+				.catch(console.log)
+		})
+		.on('ready', resolve)
+})
 
-export default {}
+const watchAll = () => new Promise((resolve, reject) => {
+	Promise.all([watchPosts()])
+		.then(resolve)
+		.catch(reject)
+})
+
+export {
+	watchAll,
+	watchPosts,
+}
