@@ -1,4 +1,4 @@
-import {getPosts, getExpandedPosts} from '../../jekyll-adapters/posts'
+import {getExpandedPosts, savePost} from '../../jekyll-adapters/posts'
 import db from '../db'
 
 const controller = {
@@ -45,8 +45,12 @@ const controller = {
 		}
 
 		db.posts.update({_id}, {$set: toSet}, {returnUpdatedDocs: true}, (err, num, post) => {
-			res.locals.data = post
-			next()
+			savePost(post)
+				.then(() => {
+					res.locals.data = post
+					next()
+				})
+				.catch(console.log)
 		})
 	},
 

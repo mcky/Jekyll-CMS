@@ -3,6 +3,9 @@ import path from 'path'
 import flatten from 'lodash/flatten'
 import nth from 'lodash/nth'
 import frontMatter from 'yaml-front-matter'
+import yaml from 'js-yaml'
+
+import {padNewlines} from './utils'
 
 // Temporary while rapidly testing
 const baseDir = process.env.JEKYLL_DIR
@@ -74,9 +77,19 @@ const getExpandedPosts = () => {
 	})
 }
 
+const savePost = (post) => {
+	const frontMatter = yaml.safeDump(post.info)
+		, content = padNewlines(post.content)
+		, toWrite =`---\n${frontMatter}---${content}`
+
+	return fs.writeFile(post.path, toWrite, 'utf8')
+		.catch(console.log)
+}
+
 export {
 	formatPostObject,
 	getPostByFilename,
 	getPosts,
 	getExpandedPosts,
+	savePost,
 }
