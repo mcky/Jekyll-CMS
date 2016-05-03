@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import {getExpandedPosts, createPost, savePost} from '../../jekyll-adapters/posts'
+import {getExpandedPosts, createPost, savePost, removePost} from '../../jekyll-adapters/posts'
 import db from '../db'
 
 //@TOOD: Add key sanitisation here
@@ -68,6 +68,17 @@ const controller = {
 				})
 				.catch(console.log)
 		})
+	},
+
+	delete: (req, res, next) => {
+		const post = res.locals.data
+
+		removePost(post)
+			.then(f => {
+				res.locals.data = {}
+				next()
+			})
+			.catch(console.log)
 	},
 
 	post: (req, res, next) => {

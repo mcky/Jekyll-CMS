@@ -10,6 +10,7 @@ router.route('/posts')
 router.route('/posts/:permalink')
 	.get(postController.get)
 	.put(postController.get, postController.put)
+	.delete(postController.get, postController.delete)
 
 router.route('/settings')
 	.get(configController.get)
