@@ -3,7 +3,9 @@ import {postController, configController} from '../controllers'
 
 const router = Router()
 
-router.get('/posts', postController.index)
+router.route('/posts')
+	.get(postController.index)
+	.post(postController.post)
 
 router.route('/posts/:permalink')
 	.get(postController.get)

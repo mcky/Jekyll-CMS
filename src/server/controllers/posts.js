@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import {getExpandedPosts, savePost} from '../../jekyll-adapters/posts'
+import {getExpandedPosts, createPost, savePost} from '../../jekyll-adapters/posts'
 import db from '../db'
 
 //@TOOD: Add key sanitisation here
@@ -68,6 +68,18 @@ const controller = {
 				})
 				.catch(console.log)
 		})
+	},
+
+	post: (req, res, next) => {
+		// @TODO: Validation here
+		createPost(req.body)
+			.then(post => {
+				// Should this be returned directly or fetched
+				// from the DB based on the permalink?
+				res.locals.data = post
+				next()
+			})
+			.catch(console.log)
 	},
 
 }
