@@ -104,6 +104,7 @@ const createPost = (inputPost) => {
 	}
 
 	return savePost(post)
+		.then(() => getPostByFilename(filePath))
 		.catch(console.log)
 }
 
