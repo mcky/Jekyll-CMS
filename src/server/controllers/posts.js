@@ -13,9 +13,9 @@ const controller = {
 	get: (req, res, next) => {
 		const {permalink} = req.params
 
-		db.posts.find({'info.permalink': permalink}, function (err, docs) {
-			if (!err && docs.length === 0) {
-				db.posts.find({
+		db.posts.findOne({'info.permalink': permalink}, function (err, docs) {
+			if (!err && !docs) {
+				db.posts.findOne({
 					filename: new RegExp(permalink)
 				}, function (err, docs) {
 					res.locals.data = docs
