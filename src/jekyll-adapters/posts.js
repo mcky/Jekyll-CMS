@@ -117,6 +117,11 @@ const savePost = (post) => {
 		.catch(console.log)
 }
 
+const removePost = (post) => {
+	return fs.unlink(post.path)
+		.catch(console.log)
+}
+
 export {
 	formatPostObject,
 	getPostByFilename,
@@ -124,4 +129,5 @@ export {
 	getExpandedPosts,
 	createPost,
 	savePost,
+	removePost,
 }
