@@ -13,6 +13,23 @@ const permalinkFromFilename = (filepath) => {
 	})
 }
 
+const generateFilename = (title, ext = '.md') => {
+	const timestamp = (new Date())
+						.toISOString()
+						.slice(0, 10)
+
+	const formattedTitle = title
+						.toLowerCase()
+						.replace(/[^\w\s]/gi, '')
+						.split(' ')
+						.slice(0, 3)
+						.join('-')
+
+	const name = `${timestamp}-${formattedTitle}`
+
+	return path.format({name, ext})
+}
+
 const padNewlines = (input) => {
 	const firstAndLast = [
 		input.slice(0, 1),
@@ -27,5 +44,6 @@ const padNewlines = (input) => {
 
 export {
 	permalinkFromFilename,
+	generateFilename,
 	padNewlines,
 }

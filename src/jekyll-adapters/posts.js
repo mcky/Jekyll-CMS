@@ -5,7 +5,7 @@ import nth from 'lodash/nth'
 import frontMatter from 'yaml-front-matter'
 import yaml from 'js-yaml'
 
-import {padNewlines} from './utils'
+import {padNewlines, generateFilename} from './utils'
 
 // Temporary while rapidly testing
 const baseDir = process.env.JEKYLL_DIR
@@ -77,6 +77,36 @@ const getExpandedPosts = () => {
 	})
 }
 
+const createPost = (inputPost) => {
+	const filename = inputPost.filename || generateFilename(inputPost.info.title)
+
+	const postDefaults = {
+		type: 'draft',
+		content: '',
+		info: {},
+	}
+
+	const constructedPost = {
+		...postDefaults,
+		...inputPost,
+		info: {
+			...postDefaults.info,
+			...inputPost.info,
+		}
+	}
+
+	const parentDir = `_${constructedPost.type}s`
+		, filePath = path.join(baseDir, parentDir, filename)
+
+	const post = {
+		...constructedPost,
+		path: filePath,
+	}
+
+	return savePost(post)
+		.catch(console.log)
+}
+
 const savePost = (post) => {
 	const frontMatter = yaml.safeDump(post.info)
 		, content = padNewlines(post.content)
@@ -91,5 +121,6 @@ export {
 	getPostByFilename,
 	getPosts,
 	getExpandedPosts,
+	createPost,
 	savePost,
 }
