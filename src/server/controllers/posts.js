@@ -1,10 +1,26 @@
+import _ from 'lodash'
+
 import {getExpandedPosts, savePost} from '../../jekyll-adapters/posts'
 import db from '../db'
+
+//@TOOD: Add key sanitisation here
+const getProjectionsFromQS = (querystring) => {
+	return _(querystring)
+		.mapValues(parseInt)
+		.omitBy(isNaN)
+		.value()
+}
+
 
 const controller = {
 
 	index: (req, res, next) => {
-		db.posts.find({}, {content: 0}, function (err, docs) {
+		const projection = {
+			...{content: 0},
+			...getProjectionsFromQS(req.query),
+		}
+
+		db.posts.find({}, projection, function (err, docs) {
 			res.locals.data = docs
 			next()
 		})
