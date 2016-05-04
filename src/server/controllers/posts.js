@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import omit from 'lodash/omit'
 
 import {getExpandedPosts, createPost, savePost, removePost} from '../../jekyll-adapters/posts'
 import db from '../db'
@@ -52,9 +53,10 @@ const controller = {
 			return null
 		}
 
+		const filteredBody = omit(req.body, ['path', 'filename', 'type', 'formatting'])
 		const newPost = {
 			...post,
-			...req.body,
+			...filteredBody,
 			info: {
 				...post.info,
 				...req.body.info,
