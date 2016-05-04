@@ -14,7 +14,7 @@ router.route('/posts/:permalink')
 
 router.route('/settings')
 	.get(configController.get)
-	.put(configController.put)
+	.put(configController.get, configController.put)
 
 router.all('/*', (req, res) => res.json(res.locals.data))
 
