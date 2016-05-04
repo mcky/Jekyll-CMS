@@ -1,8 +1,14 @@
+import path from 'path'
 import _ from 'lodash'
 import omit from 'lodash/omit'
 
-import {getExpandedPosts, createPost, savePost, removePost} from '../../jekyll-adapters/posts'
+import {makeAbsolute} from '../../jekyll-adapters/utils'
+import {getPostByFilename, createPost,
+		savePost, removePost, renamePost
+} from '../../jekyll-adapters/posts'
 import db from '../db'
+
+const delay = (time) => new Promise(resolve => setTimeout(resolve, time))
 
 //@TOOD: Add key sanitisation here
 const getProjectionsFromQS = (querystring) => {
@@ -11,6 +17,8 @@ const getProjectionsFromQS = (querystring) => {
 		.omitBy(isNaN)
 		.value()
 }
+
+const formatParentDir = (dir) => `_${dir}s`
 
 
 const controller = {
@@ -63,10 +71,24 @@ const controller = {
 			},
 		}
 
-		savePost(newPost)
+		const filename = req.body.filename || post.filename
+			, newParentDir = formatParentDir(req.body.type || post.type)
+			, newPath = path.join(newParentDir, filename)
+
+		const filePromises = [savePost(newPost), delay(2000)]
+
+		if (req.body.filename || req.body.type) filePromises.splice(1, 0, renamePost(newPost, newPath))
+
+		Promise.all(filePromises)
 			.then(() => {
-				res.locals.data = post
-				next()
+				// There's a hacky delay before this .then is called
+				// to allow fs watches to update the db.
+				// Will hopefully find a better solution later.
+				const absPath = makeAbsolute(newPath)
+				db.posts.findOne({path: absPath}, (err, docs) => {
+					res.locals.data = docs
+					next()
+				})
 			})
 			.catch(console.log)
 	},

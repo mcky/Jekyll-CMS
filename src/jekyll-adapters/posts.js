@@ -117,6 +117,12 @@ const savePost = (post) => {
 		.catch(console.log)
 }
 
+const renamePost = (post, newPath) => {
+	const absNewPath = path.join(baseDir, newPath)
+	return fs.rename(post.path, absNewPath)
+		.catch(console.log)
+}
+
 const removePost = (post) => {
 	return fs.unlink(post.path)
 		.catch(console.log)
@@ -129,5 +135,6 @@ export {
 	getExpandedPosts,
 	createPost,
 	savePost,
+	renamePost,
 	removePost,
 }

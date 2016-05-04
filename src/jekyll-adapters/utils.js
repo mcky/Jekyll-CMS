@@ -1,5 +1,9 @@
 import path from 'path'
 
+const baseDir = process.env.JEKYLL_DIR
+
+const makeAbsolute = (filepath) => path.join(baseDir, filepath)
+
 // Input  =>  '20156-04-25-some-blog-post-title.md'
 // Output <=  '2015/04/25/some-blog-post-title.html'
 const permalinkFromFilename = (filepath) => {
@@ -43,6 +47,7 @@ const padNewlines = (input) => {
 }
 
 export {
+	makeAbsolute,
 	permalinkFromFilename,
 	generateFilename,
 	padNewlines,
