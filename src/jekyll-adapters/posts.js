@@ -51,8 +51,8 @@ const getPostByFilename = (filename, {getLocation} = {getLocation: true}) => {
 
 
 const getPosts = () => {
-	const folderPromises = ['posts', 'drafts'].map(folder => {
-		const fullPath = path.join(baseDir, `_${folder}`)
+	const folderPromises = ['_posts', '_drafts'].map(folder => {
+		const fullPath = path.join(baseDir, folder)
 
 		return fs.readdir(fullPath)
 				.then(files => files.filter(hasAllowedExtension))
