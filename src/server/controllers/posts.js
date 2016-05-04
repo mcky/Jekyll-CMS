@@ -47,27 +47,28 @@ const controller = {
 	//@TODO: Inneficiently querying twice here via middleware.
 	//		 Querying should probably be abstracted.
 	put: (req, res, next) => {
-		const {_id, info: oldInfo} = res.locals.data
-		const {info: newInfo, ...body} = req.body
+		const post = res.locals.data
+		if (!post) {
+			res.locals.data = {}
+			next()
+			return null
+		}
 
-		const hasInfo = req.body.hasOwnProperty('info')
-
-		const toSet = !hasInfo ? body : {
-			...body,
+		const newPost = {
+			...post,
+			...req.body,
 			info: {
-				...oldInfo,
-				...newInfo,
+				...post.info,
+				...req.body.info,
 			},
 		}
 
-		db.posts.update({_id}, {$set: toSet}, {returnUpdatedDocs: true}, (err, num, post) => {
-			savePost(post)
-				.then(() => {
-					res.locals.data = post
-					next()
-				})
-				.catch(console.log)
-		})
+		savePost(newPost)
+			.then(() => {
+				res.locals.data = post
+				next()
+			})
+			.catch(console.log)
 	},
 
 	delete: (req, res, next) => {
