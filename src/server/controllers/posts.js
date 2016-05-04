@@ -73,6 +73,11 @@ const controller = {
 
 	delete: (req, res, next) => {
 		const post = res.locals.data
+		if (!post) {
+			res.locals.data = {}
+			next()
+			return null
+		}
 
 		removePost(post)
 			.then(f => {
