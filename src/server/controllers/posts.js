@@ -44,8 +44,6 @@ const controller = {
 		})
 	},
 
-	//@TODO: Inneficiently querying twice here via middleware.
-	//		 Querying should probably be abstracted.
 	put: (req, res, next) => {
 		const post = res.locals.data
 		if (!post) {
