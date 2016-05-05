@@ -2,7 +2,7 @@ import path from 'path'
 import _ from 'lodash'
 import omit from 'lodash/omit'
 
-import {makeAbsolute} from '../../jekyll-adapters/utils'
+import {getAbsolutePath} from '../../jekyll-adapters/utils'
 import {getPostByFilename, createPost,
 		savePost, removePost, renamePost
 } from '../../jekyll-adapters/posts'
@@ -84,7 +84,7 @@ const controller = {
 				// There's a hacky delay before this .then is called
 				// to allow fs watches to update the db.
 				// Will hopefully find a better solution later.
-				const absPath = makeAbsolute(newPath)
+				const absPath = getAbsolutePath(newPath)
 				db.posts.findOne({path: absPath}, (err, docs) => {
 					res.locals.data = docs
 					next()

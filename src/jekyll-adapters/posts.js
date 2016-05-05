@@ -1,42 +1,12 @@
 import fs from 'mz/fs'
-import path from 'path'
 import flatten from 'lodash/flatten'
-import nth from 'lodash/nth'
 import frontMatter from 'yaml-front-matter'
 import yaml from 'js-yaml'
 
-import {padNewlines, generateFilename} from './utils'
-
-// Temporary while rapidly testing
-const baseDir = process.env.JEKYLL_DIR
-
-const formats = {
-	'md': 'markdown',
-	'markdown': 'markdown',
-	'txt': 'plaintext',
-}
-
-const hasAllowedExtension = (filename) => {
-	const extension = path.extname(filename).substr(1)
-	return formats.hasOwnProperty(extension)
-}
-
-const getContentFormat = (extension) => {
-	return formats[extension.substr(1)] || null
-}
-
-const formatPostObject = (postPath) => {
-	// Naievely assumes posts/drafts are only ever one level deep
-	const type = nth(postPath.split(path.sep), -2).slice(1, -1)
-		, pathObj = path.parse(postPath)
-
-	return {
-		path: postPath,
-		filename: pathObj.base,
-		formatting: getContentFormat(pathObj.ext),
-		type,
-	}
-}
+import {baseDir, directoryStructure} from './constants'
+import {getAbsolutePath, padNewlines, generateFilename,
+		hasAllowedExtension, formatPostObject
+} from './utils'
 
 
 const getPostByFilename = (filename, {getLocation} = {getLocation: true}) => {
@@ -51,12 +21,10 @@ const getPostByFilename = (filename, {getLocation} = {getLocation: true}) => {
 
 
 const getPosts = () => {
-	const folderPromises = ['_posts', '_drafts'].map(folder => {
-		const fullPath = path.join(baseDir, folder)
-
-		return fs.readdir(fullPath)
+	const folderPromises = directoryStructure.posts.map(folder => {
+		return fs.readdir(getAbsolutePath(folder))
 				.then(files => files.filter(hasAllowedExtension))
-				.then(files => files.map(name => formatPostObject(path.join(fullPath, name))))
+				.then(files => files.map(name => formatPostObject(getAbsolutePath(name))))
 				.catch(console.log)
 	})
 
@@ -77,6 +45,7 @@ const getExpandedPosts = () => {
 	})
 }
 
+
 const createPost = (inputPost) => {
 	const filename = inputPost.filename || generateFilename(inputPost.info.title)
 
@@ -96,7 +65,7 @@ const createPost = (inputPost) => {
 	}
 
 	const parentDir = `_${constructedPost.type}s`
-		, filePath = path.join(baseDir, parentDir, filename)
+		, filePath = getAbsolutePath(parentDir, filename)
 
 	const post = {
 		...constructedPost,
@@ -108,6 +77,7 @@ const createPost = (inputPost) => {
 		.catch(console.log)
 }
 
+
 const savePost = (post) => {
 	const frontMatter = yaml.safeDump(post.info)
 		, content = padNewlines(post.content)
@@ -117,16 +87,18 @@ const savePost = (post) => {
 		.catch(console.log)
 }
 
-const renamePost = (post, newPath) => {
-	const absNewPath = path.join(baseDir, newPath)
-	return fs.rename(post.path, absNewPath)
+
+const renamePost = (post, path) => {
+	return fs.rename(post.path, getAbsolutePath(path))
 		.catch(console.log)
 }
+
 
 const removePost = (post) => {
 	return fs.unlink(post.path)
 		.catch(console.log)
 }
+
 
 export {
 	formatPostObject,
