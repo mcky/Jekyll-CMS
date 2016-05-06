@@ -17,6 +17,12 @@
     "lodash": "^4.11.1",
     "mz": "^2.4.0",
     "nedb": "^1.8.0",
+    "react": "^15.0.2",
+    "react-dom": "^15.0.2",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.4.0",
+    "react-router-redux": "^4.0.4",
+    "redux": "^3.5.2",
     "yaml-front-matter": "^3.4.0"
   },
   "devDependencies": {
