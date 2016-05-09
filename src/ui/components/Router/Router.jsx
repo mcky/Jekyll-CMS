@@ -7,7 +7,7 @@ import store from '../../scripts/store'
 
 import Wrapper from '../Wrapper'
 import Dashboard from '../Dashboard'
-
+import Posts, {onPostsEnter} from '../Posts'
 
 const history = syncHistoryWithStore(browserHistory, store)
 
@@ -15,6 +15,7 @@ const AppRouter = (props) => (
 	<Router history={history} >
 		<Route path="/" component={Wrapper}>
 			<IndexRoute component={Dashboard} />
+			<Route path="posts" component={Posts} onEnter={onPostsEnter} />
 		</Route>
 	</Router>
 )
