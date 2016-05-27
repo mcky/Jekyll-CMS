@@ -16,7 +16,7 @@ gulp.task('scripts', function () {
 		debug: !deploy,
 		fullPaths: !deploy,
 		cache: {},
-		packageCache: {}
+		packageCache: {},
 	})
 
 
@@ -46,9 +46,9 @@ gulp.task('scripts', function () {
 	compile(watcher)
 })
 
-gulp.task('default', ['scripts'], function(callback) {
+gulp.task('default', ['scripts'], function() {
 	browserSync.init({
 		open: false,
-		// proxy: 'twopax-restaurant.dev',
+		proxy: 'localhost:8080',
 	})
 })
