@@ -27,6 +27,7 @@
     "react-router-redux": "^4.0.4",
     "redux": "^3.5.2",
     "redux-saga": "^0.10.2",
+    "superagent": "^1.8.3",
     "yaml-front-matter": "^3.4.0"
   },
   "devDependencies": {
