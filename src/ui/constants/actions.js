@@ -7,6 +7,9 @@ const actionNames = [
 
 	'FETCH_POST',
 	'SET_POST',
+
+	'FETCH_SETTINGS',
+	'SET_SETTINGS',
 ]
 
 const actions = keyMirror(actionNames)

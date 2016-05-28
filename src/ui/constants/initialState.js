@@ -3,6 +3,7 @@ const initialState = {
 		currentPost: null,
 		posts: [],
 	},
+	settings: {},
 }
 
 export default initialState

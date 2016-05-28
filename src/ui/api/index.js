@@ -14,7 +14,15 @@ const fetchPost = ({slug}) => {
 	return apiRequest(options)
 }
 
+const fetchSettings = () => {
+	const options = {
+		url: '/api/settings',
+	}
+	return apiRequest(options)
+}
+
 export {
 	fetchPosts,
 	fetchPost,
+	fetchSettings,
 }
