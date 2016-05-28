@@ -9,6 +9,7 @@ import Wrapper from '../Wrapper'
 import Dashboard from '../Dashboard'
 import PostIndex, {onPostIndexEnter} from '../PostIndex'
 import Post, {onPostEnter} from '../Post'
+import Settings, {onSettingsEnter} from '../Settings'
 
 const history = syncHistoryWithStore(browserHistory, store)
 
@@ -18,6 +19,8 @@ const AppRouter = () => (
 			<IndexRoute component={Dashboard} />
 			<Route path="posts" component={PostIndex} onEnter={onPostIndexEnter} />
 			<Route path="posts/:slug" component={Post} onEnter={onPostEnter} />
+
+			<Route path="settings" component={Settings} onEnter={onSettingsEnter} />
 		</Route>
 	</Router>
 )
