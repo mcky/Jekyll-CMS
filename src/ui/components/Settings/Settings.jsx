@@ -9,11 +9,43 @@ const onSettingsEnter = () => {
 	store.dispatch(actions.fetchSettings())
 }
 
+const mapObj = (obj, cb) => Object.keys(obj)
+								.map((k, i, arr) => cb(k, obj[k], i, arr))
+
+
+const recursiveMapObj = (obj, cb, nestedCb) => {
+	return mapObj(obj, (key, val) => {
+
+		if (Array.isArray(val)) {
+			// Nothing yet
+		} else if (typeof(val) === 'object') {
+			return nestedCb(key, recursiveMapObj(val, cb, nestedCb))
+		} else {
+			return cb(key, val)
+		}
+	})
+}
+
 const Settings = ({settings}) => {
 	if (!settings) return <div/>
 	return (
 		<div>
-			{JSON.stringify(settings)}
+			Settings: <br />
+
+			<ul>
+				{recursiveMapObj(settings,
+					(keyName, value) => (
+						<li>{keyName}: {value}</li>
+					), (keyName, obj) => (
+						<li>
+							{keyName}:
+							<ul>
+								{obj}
+							</ul>
+						</li>
+					)
+				)}
+			</ul>
 		</div>
 	)
 }
