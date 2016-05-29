@@ -1,5 +1,4 @@
-import {takeEvery} from 'redux-saga'
-import {fork, call, put} from 'redux-saga/effects'
+import {put} from 'redux-saga/effects'
 
 import * as api from '../api'
 import a from '../constants/actions'
@@ -16,9 +15,7 @@ function* fetchPost({slug}) {
 	yield put(actions.setPost({post}))
 }
 
-
-// Check documentation for correct way to handle forks-in-forks when online
-export default function* posts() {
-	yield fork(function*() {yield* takeEvery(a.FETCH_POST, fetchPost)})
-	yield fork(function*() {yield* takeEvery(a.FETCH_POSTS, fetchPosts)})
-}
+export default [
+	[a.FETCH_POSTS, fetchPosts],
+	[a.FETCH_POST, fetchPost],
+]
