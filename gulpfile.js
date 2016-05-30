@@ -9,6 +9,16 @@ var gulp = require('gulp')
 
 let deploy = false
 
+gulp.task('styles', function() {
+	return gulp.src('src/ui/styles/main.scss')
+		.pipe(gp.if(!deploy, gp.sourcemaps.init()))
+		.pipe(gp.sass().on('error', gp.sass.logError))
+		.pipe(gp.autoprefixer())
+		.pipe(gp.if(!deploy, gp.sourcemaps.write()))
+		.pipe(gp.if(!deploy, browserSync.stream({match: '**/*.css'})))
+		.pipe(gulp.dest('public'))
+})
+
 gulp.task('scripts', function () {
 	const bundler = browserify({
 		entries: ['src/ui/index.js'],
@@ -47,6 +57,9 @@ gulp.task('scripts', function () {
 })
 
 gulp.task('default', ['scripts'], function() {
+
+	gulp.watch('src/ui/**/*.scss', ['styles'])
+
 	browserSync.init({
 		open: false,
 		proxy: 'localhost:8080',
