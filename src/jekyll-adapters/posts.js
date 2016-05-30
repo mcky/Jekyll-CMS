@@ -15,7 +15,7 @@ const getPostByFilename = (filename, {getLocation} = {getLocation: true}) => {
 			const {__content: content, ...info} = frontMatter.loadFront(file)
 			return {info, content}
 		})
-		.then(file => getLocation ? {...file, ...formatPostObject(filename)} : file)
+		.then(file => getLocation ? {...file, ...formatPostObject(filename, file)} : file)
 		.catch(console.log)
 }
 

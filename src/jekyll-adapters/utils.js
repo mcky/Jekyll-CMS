@@ -78,15 +78,17 @@ const getContentFormat = (extension) => {
 }
 
 
-const formatPostObject = (postPath) => {
+const formatPostObject = (postPath, postObj) => {
 	// Naievely assumes posts/drafts are only ever one level deep
 	const type = nth(postPath.split(path.sep), -2).slice(1, -1)
 		, pathObj = path.parse(postPath)
+		, _permalink = postObj.info.permalink || pathObj.name
 
 	return {
 		path: postPath,
 		filename: pathObj.base,
 		formatting: getContentFormat(pathObj.ext),
+		_permalink,
 		type,
 	}
 }
