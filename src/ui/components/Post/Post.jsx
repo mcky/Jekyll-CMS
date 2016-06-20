@@ -9,11 +9,23 @@ const onPostEnter = (ns) => {
 	store.dispatch(actions.fetchPost({slug}))
 }
 
+const Post = ({post}) => {
+	if (!post) return <div/>
 
-const Post = (props) => {
+	const {info: {title}, content} = post
+
 	return (
-		<div>
-			{props.post ? props.post.content : null}
+		<div className="MainPanel ContentEditor">
+
+			<div className="Field">
+				<label className="Field__label">Title</label>
+				<input className="Field__input" value={title} />
+			</div>
+
+			<div className="Field Field--area">
+				<label className="Field__label">Content</label>
+				<textarea className="Field__input" defaultValue={content} />
+			</div>
 		</div>
 	)
 }
