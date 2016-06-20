@@ -1,11 +1,20 @@
 import React, {Component} from 'react'
-import {connect} from 'react-redux'
+
+import Sidebar from '../Sidebar'
 
 
 const Wrapper = (props) => {
 	return (
-		<div>
-			{props.children}
+		<div className="App">
+
+			<Sidebar />
+
+			<div className="MainWrap">
+				<main className="Main">
+					{props.children}
+				</main>
+			</div>
+
 		</div>
 	)
 }
