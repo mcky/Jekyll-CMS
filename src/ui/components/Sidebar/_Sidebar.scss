@@ -1,0 +1,19 @@
+.Sidebar {
+	padding: 1rem 0;
+	background: $c-panel;
+
+	&__links {
+		width: 100%;
+		list-style: none;
+		padding: 0;
+	}
+
+	&__item {
+		padding: .25rem 2rem .25rem .5rem;
+
+		a {
+			display: block;
+		}
+
+	}
+}
