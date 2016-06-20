@@ -1,6 +1,5 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import mapKeys from 'lodash/mapKeys'
 
 import store from '../../scripts/store'
 import actions from '../../actions'
@@ -29,23 +28,27 @@ const recursiveMapObj = (obj, cb, nestedCb) => {
 const Settings = ({settings}) => {
 	if (!settings) return <div/>
 	return (
-		<div>
-			Settings: <br />
+		<div className="MainPanel">
 
-			<ul>
-				{recursiveMapObj(settings,
-					(keyName, value) => (
-						<li>{keyName}: {value}</li>
-					), (keyName, obj) => (
-						<li>
-							{keyName}:
-							<ul>
-								{obj}
-							</ul>
-						</li>
-					)
-				)}
-			</ul>
+			<div className="NestedFieldEditor">
+				<ul>
+					{recursiveMapObj(settings,
+						(keyName, value) => (
+							<li className="Field">
+								<span className="Field__label">{keyName}:</span>
+								<input className="Field__input" value={value} onChange={function(){}} />
+							</li>
+						), (keyName, obj) => (
+							<li className="Field">
+								<span className="Field__label">{keyName}:</span>
+								<ul>
+									{obj}
+								</ul>
+							</li>
+						)
+					)}
+				</ul>
+			</div>
 		</div>
 	)
 }
