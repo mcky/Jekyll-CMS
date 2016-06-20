@@ -1,0 +1,44 @@
+@import 'meta/index',
+		'base/index',
+		'type/index',
+		'forms/index';
+
+
+.App {
+	display: flex;
+	min-height: 100vh;
+	height: 100%;
+}
+
+.MainWrap {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.Main {
+	display: flex;
+	flex: 1;
+	padding: 1rem;
+}
+
+.MainPanel {
+	background: $c-panel;
+	padding: 1rem;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.ContentIndex {}
+
+.ContentEditor {}
+
+.NestedFieldEditor {
+	li li {
+		margin-left: .5rem;
+	}
+}
+
+
+@import '../components/index';

@@ -1,0 +1,32 @@
+.Field {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 1.5rem;
+
+	&:last-of-type {
+		margin-bottom: 0;
+	}
+
+	&--area {
+		flex: 1;
+	}
+
+	&__input {
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		font-size: .8rem;
+		padding: .5rem;
+		border: 1px solid rgba(black, .1);
+	}
+
+	textarea {
+		flex: 1;
+	}
+
+	&__label {
+		display: block;
+		margin-bottom: .5rem;
+		font-size: .8rem;
+	}
+}
