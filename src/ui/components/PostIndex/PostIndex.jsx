@@ -12,20 +12,31 @@ const onPostIndexEnter = () => {
 
 const PostIndex = (props) => {
 	return (
-		<div>
-			Posts
+		<div className="MainPanel ContentIndex">
 
-			{props.posts.map(post => {
-				const url = `/posts/${post.info.permalink}` || '/posts/404'
+			<table>
+				<tbody>
+					{props.posts.map(post => {
+						const url = post.info.permalink ? `/posts/${post.info.permalink}` : '/404'
 
-				return (
-					<div>
-						<Link to={url}>
-							{post.info.title}
-						</Link>
-					</div>
-				)
-			})}
+						return (
+							<tr>
+								<td>
+									<Link to={url}>{post.info.title}</Link>
+								</td>
+
+								<td>
+									{post.type === 'post' ? 'Published' : 'Draft'}
+								</td>
+
+								<td>
+									$date
+								</td>
+							</tr>
+						)
+					})}
+				</tbody>
+			</table>
 		</div>
 	)
 }
