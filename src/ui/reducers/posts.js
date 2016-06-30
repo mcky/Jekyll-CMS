@@ -11,6 +11,11 @@ const reducers = {
 		...state,
 		currentPost: merge({}, state.currentPost, payload),
 	}),
+
+	UPDATE_POST_CONTENT: (state, {payload}) => ({
+		...state,
+		currentPost: {...state.currentPost, ...payload},
+	}),
 }
 
 export default reducerUtil.bind(null, reducers)

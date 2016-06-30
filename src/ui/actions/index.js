@@ -12,6 +12,11 @@ const customActions = {
 		},
 	}),
 
+	updatePostContent: (content) => ({
+		type: actions.UPDATE_POST_CONTENT,
+		payload: {content},
+	}),
+
 }
 
 const generatedActions = generateActions(customActions, actionNames)

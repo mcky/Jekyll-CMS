@@ -9,6 +9,7 @@ const actionNames = [
 	'SET_POST',
 
 	'UPDATE_POST_INFO',
+	'UPDATE_POST_CONTENT',
 
 	'FETCH_SETTINGS',
 	'SET_SETTINGS',

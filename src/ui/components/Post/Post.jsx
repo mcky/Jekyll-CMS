@@ -16,6 +16,7 @@ const Post = ({post, actions}) => {
 	const {info: {title}, content} = post
 
 	const onInfoChange = (field, evt) => actions.updatePostInfo(field, evt.target.value)
+	const onContentChange = (evt) => actions.updatePostContent(evt.target.value)
 
 	return (
 		<div className="MainPanel ContentEditor">
@@ -27,7 +28,7 @@ const Post = ({post, actions}) => {
 
 			<div className="Field Field--area">
 				<label className="Field__label">Content</label>
-				<textarea className="Field__input" defaultValue={content} />
+				<textarea className="Field__input" onChange={onContentChange} value={content} />
 			</div>
 		</div>
 	)
@@ -37,6 +38,7 @@ const mapStateToProps = ({posts}) => ({post: posts.currentPost})
 const mapDispatchToProps = (dispatch) => ({
 	actions: bindActionCreators({
 		updatePostInfo: actions.updatePostInfo,
+		updatePostContent: actions.updatePostContent,
 	}, dispatch),
 })
 const connectedPost = connect(mapStateToProps, mapDispatchToProps)(Post)
