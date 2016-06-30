@@ -1,4 +1,5 @@
 import React from 'react'
+import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
 import store from '../../scripts/store'
@@ -9,17 +10,19 @@ const onPostEnter = (ns) => {
 	store.dispatch(actions.fetchPost({slug}))
 }
 
-const Post = ({post}) => {
+const Post = ({post, actions}) => {
 	if (!post) return <div/>
 
 	const {info: {title}, content} = post
+
+	const onInfoChange = (field, evt) => actions.updatePostInfo(field, evt.target.value)
 
 	return (
 		<div className="MainPanel ContentEditor">
 
 			<div className="Field">
 				<label className="Field__label">Title</label>
-				<input className="Field__input" value={title} />
+				<input className="Field__input" value={title} onChange={onInfoChange.bind(null, 'title')} />
 			</div>
 
 			<div className="Field Field--area">
@@ -31,7 +34,12 @@ const Post = ({post}) => {
 }
 
 const mapStateToProps = ({posts}) => ({post: posts.currentPost})
-const connectedPost= connect(mapStateToProps)(Post)
+const mapDispatchToProps = (dispatch) => ({
+	actions: bindActionCreators({
+		updatePostInfo: actions.updatePostInfo,
+	}, dispatch),
+})
+const connectedPost = connect(mapStateToProps, mapDispatchToProps)(Post)
 
 export {onPostEnter}
 export default connectedPost
