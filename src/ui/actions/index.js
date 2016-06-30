@@ -1,11 +1,22 @@
 import {generateActions} from './utils'
-import {actionNames} from '../constants/actions'
+import actions, {actionNames} from '../constants/actions'
 
-const actions = {}
+const customActions = {
 
-const generatedActions = generateActions(actions, actionNames)
+	updatePostInfo: (field, content) => ({
+		type: actions.UPDATE_POST_INFO,
+		payload: {
+			info: {
+				[field]: content,
+			},
+		},
+	}),
+
+}
+
+const generatedActions = generateActions(customActions, actionNames)
 
 export default {
-	...actions,
+	...customActions,
 	...generatedActions,
 }
