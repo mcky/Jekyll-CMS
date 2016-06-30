@@ -6,17 +6,17 @@ const reducerUtil = (reducers, state = {}, action) => {
 	return reducerFn ? (reducerFn(state, action)) : state
 }
 
-const mergeState = (state, action) => {
-	const {type, ...data} = action
+const mergeState = (state, {payload}) => {
 	return {
 		...state,
-		...data,
+		...payload,
 	}
 }
 
-const mergeStateRenameKeys = (replacements, state, action) => {
-	const replaced = mapKeys(action, (v, k) => replacements[k] ? replacements[k] : k)
-	return mergeState(state, replaced)
+
+const mergeStateRenameKeys = (replacements, state, {payload}) => {
+	const replaced = mapKeys(payload, (v, keyName) => replacements[keyName] || keyName)
+	return mergeState(state, {payload: replaced})
 }
 
 export {

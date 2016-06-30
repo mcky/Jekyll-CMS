@@ -17,7 +17,7 @@ const generateActions = (actions, actionNames) => {
 
 	const newActions = toMakeActionsFor.reduce((acs, type) => ({
 		...acs,
-		[camelCase(type)]: (payload) => ({type, ...payload}),
+		[camelCase(type)]: (payload) => ({type, payload}),
 	}), {})
 
 	return newActions

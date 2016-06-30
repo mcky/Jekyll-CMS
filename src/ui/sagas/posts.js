@@ -10,9 +10,9 @@ function* fetchPosts() {
 	yield put(actions.setPosts({posts}))
 }
 
-function* fetchPost({slug}) {
-	const post = yield api.fetchPost({slug})
-	yield put(actions.setPost({post}))
+function* fetchPost({payload}) {
+	const post = yield api.fetchPost({slug: payload.slug})
+	yield put(actions.setPost({post, one: 'two'}))
 }
 
 export default [
